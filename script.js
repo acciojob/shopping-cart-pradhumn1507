@@ -1,36 +1,46 @@
 //your code here
-let itemInput = document.getElementById('item-name-input');
-let priceInput = document.getElementById('item-price-input');
+var itemName = document.getElementById("item-name-input");
+var itemQuantity = document.getElementById("item-qty-input");
+var itemPrice = document.getElementById("item-price-input");
 
-let button = document.getElementById('add');
+var tbody = document.querySelector("tbody");
 
-let table = document.getElementById('table');
-let total = document.getElementById('total');
+var grandTotal = document.getElementById("total");
+var grand_total = 0;
 
-let priceArr = [];
-function addItem() {
-    let item = itemInput.value;
-    let price = priceInput.value;
-    let sum = 0;
+var addItem = document.querySelector("#add");
 
-    if (item !== '' && price !== "") {
-        // you can start items to the screen
-        let row = document.createElement('tr');
-        priceArr.push(parseInt(price));
-        // console.log(priceArr);
-        row.innerHTML = `<td>${item} </td> <td>${price}</td> `
-        
-        for (let i = 0; i < priceArr.length; i++) {
-            sum += priceArr[i];
-        }
-        
-        console.log(sum);
-        table.append(row);
-        total.innerText = sum;
-        
-        itemInput.value = '';
-        priceInput.value = '';
-    }
-}
+addItem.addEventListener("click", (event) => {
+  event.preventDefault();
 
-button.addEventListener('click', addItem)
+  let newRow = document.createElement("tr");
+
+  let name = document.createElement("td");
+  name.innerText = itemName.value;
+  name.classList.add("item");
+  newRow.append(name);
+
+  let price = document.createElement("td");
+  price.innerText = itemPrice.value;
+  newRow.append(price);
+  price.classList.add("price");
+
+  let quantity = document.createElement("td");
+  quantity.innerText = itemQuantity.value;
+  newRow.append(quantity);
+
+  if (itemName.value && itemQuantity.value && itemPrice.value) {
+    let total = document.createElement("td");
+    total.innerText = itemPrice.value * itemQuantity.value;
+    newRow.append(total);
+
+    tbody.append(newRow);
+
+    grand_total += Number(total.innerText);
+    grandTotal.innerHTML = "Grand Total: ₹ " + grand_total;
+  }
+
+  itemName.value = "";
+  itemQuantity.value = "";
+  itemPrice.value = "";
+});
